@@ -4,6 +4,7 @@ class Solution(object):
         self.obstacleGrid = []
         self.started = set()
         self.dp = {}
+        self.used_counter = {}
 
     def val_hash_func(self, x):
         return x
@@ -29,6 +30,8 @@ class Solution(object):
         if c1 == m - 1 and c2 == n - 1:
             return 1
         hash_key = self.val_hash_func((c1, c2))
+        if hash_key not in self.used_counter:
+            self.used_counter[hash_key] = 0
         if hash_key not in self.dp:
             paths = 0
             self.dp[hash_key] = -1
@@ -38,6 +41,7 @@ class Solution(object):
                     continue
                 paths += self.helper(k1, k2, m, n)
             self.dp[hash_key] = paths
+        self.used_counter[hash_key] += self.dp[hash_key]
         return self.dp[hash_key]
 
     def uniquePathsWithObstacles(self, obstacleGrid):
@@ -51,9 +55,17 @@ class Solution(object):
         if not m:
             return 0
         n = len(obstacleGrid[0])
-        return self.helper(0, 0, m, n)
+        res = self.helper(0, 0, m, n)
+        return res
 
 
-print Solution().uniquePathsWithObstacles([
-    [1]
+s = Solution()
+print s.uniquePathsWithObstacles([
+    [0, 0, 0, 0],
+    [0, 1, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 1, 0],
+    [0, 0, 0, 0]
 ])
+print s.used_counter
+print s.dp
