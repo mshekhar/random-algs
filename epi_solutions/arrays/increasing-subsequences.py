@@ -1,62 +1,35 @@
-class SubseqNoe(object):
-    def __init__(self, val):
-        self.val = val
-        self.previous = []
-        self.subsqs = []
-
-    def __str__(self):
-        return str(self.val) + "_" + str("_".join(map(lambda x: str(x), self.previous)))
-
-    def __repr__(self):
-        return str(self.val) + "_" + str("_".join(map(lambda x: str(x), self.previous)))
-
-
 class Solution(object):
-    def generate_subsqs(self, subsq_node):
-        res = []
-        for prev in subsq_node.previous:
-            for i in prev.subsqs:
-                res.append(i[:])
-        for p in res:
-            p.append(subsq_node.val)
-        res.append([subsq_node.val])
-        return res
+    def dfs(self, nums, res, path, idx, prev):
+        if len(path) >= 2:
+            res.append(path[:])
+        h_set = set()
+        for i in range(idx, len(nums)):
+            if nums[i] in h_set:
+                continue
+            h_set.add(nums[i])
+            if nums[i] >= prev:
+                path.append(nums[i])
+                self.dfs(nums, res, path, i + 1, nums[i])
+                path.pop()
 
     def findSubsequences(self, nums):
         """
         :type nums: List[int]
         :rtype: List[List[int]]
         """
-        if not nums:
+        if len(nums) < 2:
             return []
-
-        subseq_list = []
-        for i, n in enumerate(nums):
-            subsq_node = SubseqNoe(n)
-            can_add = False
-            for j in xrange(i - 1, -1, -1):
-                if n > subseq_list[j].val:
-                    can_add = True
-                    subsq_node.previous.append(subseq_list[j])
-                if n == subseq_list[j].val and not can_add:
-                    subsq_node.previous.append(subseq_list[j])
-                    break
-            subseq_list.append(subsq_node)
-        res = set()
-        for subsq_node in subseq_list:
-            subsq_node.subsqs = self.generate_subsqs(subsq_node)
-            for i in subsq_node.subsqs:
-                if len(i) >= 2:
-                    res.add(tuple(i))
-            # print subsq_node.val, subsq_node.previous, subsq_node.subsqs, res
-        return list(res)
+        res = []
+        path = []
+        self.dfs(nums, res, path, 0, float('-inf'))
+        return res
 
 
-# print Solution().findSubsequences([4, 6, 7, 7])
-# print Solution().findSubsequences([4])
-# print Solution().findSubsequences([4, 6])
-# print Solution().findSubsequences([4, 2])
-# print Solution().findSubsequences([])
+print Solution().findSubsequences([4, 6, 7, 7])
+print Solution().findSubsequences([4])
+print Solution().findSubsequences([4, 6])
+print Solution().findSubsequences([4, 2])
+print Solution().findSubsequences([])
 s1 = Solution().findSubsequences([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 1, 1, 1, 1])
 
 s2 = [[3, 5, 7, 10], [1, 3, 4, 6, 8, 9], [1, 2, 3, 4, 8, 9], [4, 6, 7, 8, 9, 10], [2, 4, 10], [4, 5, 7, 8, 10], [8, 10],
@@ -263,6 +236,7 @@ s2 = [[3, 5, 7, 10], [1, 3, 4, 6, 8, 9], [1, 2, 3, 4, 8, 9], [4, 6, 7, 8, 9, 10]
       [1, 3, 4, 5, 7, 9], [1, 3, 6, 7, 10], [3, 4, 6, 9], [1, 5, 6, 7, 8, 9, 10], [3, 4, 6, 7, 8, 10],
       [1, 2, 4, 6, 8, 9],
       [1, 2, 3, 4, 5, 8, 9]]
+print len(s1), len(s2)
 
 s1 = Solution().findSubsequences([100, 90, 80, 70, 60, 50, 60, 70, 80, 90, 100])
 s2 = [[60, 60, 80, 100], [60, 70], [50, 70, 80, 90], [100, 100], [60, 70, 90], [50, 70, 90], [50, 60, 80, 90], [80, 80],
@@ -279,3 +253,4 @@ s2 = [[60, 60, 80, 100], [60, 70], [50, 70, 80, 90], [100, 100], [60, 70, 90], [
       [60, 80, 100], [50, 60, 70, 80, 90, 100], [50, 80, 90], [50, 60, 70, 90, 100], [70, 80, 90], [70, 90, 100],
       [90, 90], [80, 100], [60, 60, 80], [50, 60, 70, 90], [60, 70, 80, 90], [80, 80, 100], [50, 70, 90, 100],
       [50, 90, 100]]
+print len(s1), len(s2)
