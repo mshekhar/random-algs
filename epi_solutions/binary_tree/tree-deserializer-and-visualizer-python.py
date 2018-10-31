@@ -51,5 +51,6 @@ def drawtree(root):
     turtle.mainloop()
 
 
-drawtree(deserialize('[1,2,3,null,null,4,null,null,5]'))
-drawtree(deserialize('[2,1,3,0,7,9,1,2,null,1,0,null,null,8,8,null,null,null,null,7]'))
+drawtree(deserialize('[1,2,3,4,5,null,6,7,null,null,null,null,8]'))
+# drawtree(deserialize('[1,2,3,null,null,4,null,null,5]'))
+# drawtree(deserialize('[2,1,3,0,7,9,1,2,null,1,0,null,null,8,8,null,null,null,null,7]'))
