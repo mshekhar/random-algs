@@ -22,7 +22,8 @@ class Solution(object):
                 if ugly_num != ugly_nums[-1]:
                     ugly_nums.append(ugly_num)
                     break
+        print ugly_nums
         return ugly_nums[-1]
 
 
-print Solution().nthUglyNumber(10)
+print Solution().nthUglyNumber(12)
