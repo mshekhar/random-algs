@@ -41,133 +41,163 @@
 #
 # for media in recent_media:
 #     break
-import cookielib
-import datetime
-import re
-import urllib2
-import uuid
+# import cookielib
+# import datetime
+# import re
+# import urllib2
+# import uuid
+#
+# from bs4 import BeautifulSoup
+#
+#
+# def openurl(url):
+#     try:
+#         cj = cookielib.CookieJar()
+#         opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+#         opener.addheaders.append(('User-Agent',
+#                                   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'))
+#         opener.addheaders.append(('Accept-Encoding', 'utf-8'))
+#         html = opener.open(url).read().decode('utf-8', 'ignore')
+#         return html
+#     except Exception, e:
+#         req = urllib2.Request(url, headers={
+#             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'})
+#         req.add_header('Accept-Encoding', 'utf-8')
+#         html = urllib2.urlopen(req).read().decode('utf-8', 'ignore')
+#         return html
+#
+#
+# def instagram_image_url(url):
+#     html = openurl(url)
+#     soup = BeautifulSoup(html)
+#     a = soup.findAll('meta')
+#     imgurl = ''
+#     name = ''
+#     send_json = {}
+#     for item in a:
+#         try:
+#             if item['property'] == 'og:image':
+#                 imgurl = item['content']
+#             elif item['property'] == 'og:title':
+#                 name = item['content']
+#
+#         except Exception, e:
+#             print e
+#
+#     if name == '':
+#         imgName = "Instagram Image"
+#     else:
+#         imgName = name.split(' ')[0]
+#         imgName = imgName + '\'s image'
+#     print imgName
+#
+#     if imgurl:
+#         send_json['Path'] = imgurl
+#         send_json['Name'] = imgName
+#         send_json['Url'] = imgurl
+#         send_json['FileModified'] = datetime.datetime.now()
+#         send_json['FileAccessed'] = datetime.datetime.now()
+#         send_json['FileCreated'] = datetime.datetime.now()
+#         send_json['Extension'] = 'jpg'
+#     else:
+#         send_json['Error'] = 'Instagram Exception:Image not found'
+#     return send_json
+#
+#
+# def instagram_validator(url):
+#     print "Inside Instagram_url_validation: ", url
+#     Instagram_regex = r'(?:(?:http|https):\/\/)?(?:www.)?(?:instagram.com|instagr.am)\/([A-Za-z0-9-_]+)'
+#     if re.match(Instagram_regex, url):
+#         print "matched"
+#         return True
+#     else:
+#         print "unmatched"
+#         return False
+#
+#
+# def download_img(send_json):
+#     path = '/Users/mayankshekhar/Downloads/inst_img'
+#     if send_json.get('Url'):
+#         with open(path + '/' + send_json['Name'] + '_' + str(uuid.uuid4())[:5] + '.jpg', 'w') as f:
+#             cj = cookielib.CookieJar()
+#             opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+#             opener.addheaders.append(('User-Agent',
+#                                       'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'))
+#             opener.addheaders.append(('Accept-Encoding', 'utf-8'))
+#             html = opener.open(send_json['Url']).read()
+#             f.write(html)
+#             print 'done ', path + '/' + send_json['Name'] + '_' + str(uuid.uuid4())[:5] + '.jpg'
+#
+#
+# urls = ['https://www.instagram.com/p/Bg7D9DGh707/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/Bef86KxhMvb/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BdmnNJLh2qE/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/Bd49x0ZBmBt/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/Bd-AzrfB3P1/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BeSDVRhBL4w/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BeVOeF5B4to/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BeVbkfDAqqP/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BeakZQeh7q1/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/Bdk6W3FBVle/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BXLs1h0ADym/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BW-9sEJg4VM/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BXNDdkkAg0t/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BXQ7VX6Aa9D/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BcNalkBhzny/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BcSgjdgBd-W/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BcaQ0cmhVb2/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BdS0Vqmh9KM/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BdXN0QphnEo/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BdaP2NSBZ27/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BdfhDZDBhte/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/zsBK-hwaUt/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/8if2aSwaRX/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/8ntbFAQaXr/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BBndweMQaUb/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BEW4jFgQaQS/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BGBvjvawabS/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BLjIkqYDmWL/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BN2ZnMXDz47/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BODFF9ADcCI/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BVu6wa4gcZc/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BWDsF1aANpP/?taken-by=thekreativeadda',
+#         'https://www.instagram.com/p/BV9TO6Tg4Gk/?taken-by=thekreativeadda']
+# import time
+# import random
+#
+# for url in urls:
+#     send_json = instagram_image_url(url)
+#     download_img(send_json)
+#     sleep_time = random.randint(2, 7)
+#     print 'loop done ', url, sleep_time
+#     time.sleep(sleep_time)
 
-from bs4 import BeautifulSoup
+
+# import base64
+#
+# encoded = base64.b64encode(b'mayank.shekhar:')
+# print encoded
+# # bWF5YW5rLnNoZWtoYXI6U0c2QWM4SkxhaQ==
+#
+# {
+#     "client_id": "hudson_new_test_server",
+#     "name": "Hudson 2.0 Test Server",
+#     "team_email": "search-serving-index@flipkart.com",
+#     "description": "Hudson is the entry point to the Sherlock search ecosystem",
+#     "scopes": [
+#         {
+#             "auto_approve": true,
+#             "scope": "user.profile"
+#         }
+#     ],
+#     "authorized_grant_types": ["client_credentials"],
+#     "client_admins": [{
+#         "identity_provider": "basic.fkldap",
+#         "user_id": "mayank.shekhar"
+#     }]
+# }
+
+# "identity_provider": "basic.fkldap",
+# "redirect_url": ["https://10.33.33.33:80/login_callback"],
 
 
-def openurl(url):
-    try:
-        cj = cookielib.CookieJar()
-        opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
-        opener.addheaders.append(('User-Agent',
-                                  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'))
-        opener.addheaders.append(('Accept-Encoding', 'utf-8'))
-        html = opener.open(url).read().decode('utf-8', 'ignore')
-        return html
-    except Exception, e:
-        req = urllib2.Request(url, headers={
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'})
-        req.add_header('Accept-Encoding', 'utf-8')
-        html = urllib2.urlopen(req).read().decode('utf-8', 'ignore')
-        return html
-
-
-def instagram_image_url(url):
-    html = openurl(url)
-    soup = BeautifulSoup(html)
-    a = soup.findAll('meta')
-    imgurl = ''
-    name = ''
-    send_json = {}
-    for item in a:
-        try:
-            if item['property'] == 'og:image':
-                imgurl = item['content']
-            elif item['property'] == 'og:title':
-                name = item['content']
-
-        except Exception, e:
-            print e
-
-    if name == '':
-        imgName = "Instagram Image"
-    else:
-        imgName = name.split(' ')[0]
-        imgName = imgName + '\'s image'
-    print imgName
-
-    if imgurl:
-        send_json['Path'] = imgurl
-        send_json['Name'] = imgName
-        send_json['Url'] = imgurl
-        send_json['FileModified'] = datetime.datetime.now()
-        send_json['FileAccessed'] = datetime.datetime.now()
-        send_json['FileCreated'] = datetime.datetime.now()
-        send_json['Extension'] = 'jpg'
-    else:
-        send_json['Error'] = 'Instagram Exception:Image not found'
-    return send_json
-
-
-def instagram_validator(url):
-    print "Inside Instagram_url_validation: ", url
-    Instagram_regex = r'(?:(?:http|https):\/\/)?(?:www.)?(?:instagram.com|instagr.am)\/([A-Za-z0-9-_]+)'
-    if re.match(Instagram_regex, url):
-        print "matched"
-        return True
-    else:
-        print "unmatched"
-        return False
-
-
-def download_img(send_json):
-    path = '/Users/mayankshekhar/Downloads/inst_img'
-    if send_json.get('Url'):
-        with open(path + '/' + send_json['Name'] + '_' + str(uuid.uuid4())[:5] + '.jpg', 'w') as f:
-            cj = cookielib.CookieJar()
-            opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
-            opener.addheaders.append(('User-Agent',
-                                      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'))
-            opener.addheaders.append(('Accept-Encoding', 'utf-8'))
-            html = opener.open(send_json['Url']).read()
-            f.write(html)
-            print 'done ', path + '/' + send_json['Name'] + '_' + str(uuid.uuid4())[:5] + '.jpg'
-
-
-urls = ['https://www.instagram.com/p/Bg7D9DGh707/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/Bef86KxhMvb/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BdmnNJLh2qE/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/Bd49x0ZBmBt/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/Bd-AzrfB3P1/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BeSDVRhBL4w/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BeVOeF5B4to/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BeVbkfDAqqP/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BeakZQeh7q1/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/Bdk6W3FBVle/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BXLs1h0ADym/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BW-9sEJg4VM/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BXNDdkkAg0t/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BXQ7VX6Aa9D/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BcNalkBhzny/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BcSgjdgBd-W/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BcaQ0cmhVb2/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BdS0Vqmh9KM/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BdXN0QphnEo/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BdaP2NSBZ27/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BdfhDZDBhte/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/zsBK-hwaUt/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/8if2aSwaRX/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/8ntbFAQaXr/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BBndweMQaUb/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BEW4jFgQaQS/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BGBvjvawabS/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BLjIkqYDmWL/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BN2ZnMXDz47/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BODFF9ADcCI/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BVu6wa4gcZc/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BWDsF1aANpP/?taken-by=thekreativeadda',
-        'https://www.instagram.com/p/BV9TO6Tg4Gk/?taken-by=thekreativeadda']
-import time
-import random
-
-for url in urls:
-    send_json = instagram_image_url(url)
-    download_img(send_json)
-    sleep_time = random.randint(2, 7)
-    print 'loop done ', url, sleep_time
-    time.sleep(sleep_time)

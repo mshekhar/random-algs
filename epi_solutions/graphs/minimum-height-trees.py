@@ -23,3 +23,5 @@ class Solution(object):
                     new_deg_one_nodes.append(j)
             deg_one_nodes = new_deg_one_nodes
         return deg_one_nodes
+
+
